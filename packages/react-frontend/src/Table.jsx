@@ -1,34 +1,46 @@
 import React from "react";
 
-function Table() {
-  return (
-    <table>
+function TableHeader() {
+    return (
       <thead>
         <tr>
           <th>Name</th>
           <th>Job</th>
         </tr>
       </thead>
-      <tbody>
+    );
+  }
+  
+function TableBody() {
+    return (
+        <tbody>
         <tr>
-          <td>Charlie</td>
-          <td>Janitor</td>
+            <td>Charlie</td>
+            <td>Janitor</td>
         </tr>
         <tr>
-          <td>Mac</td>
-          <td>Bouncer</td>
+            <td>Mac</td>
+            <td>Bouncer</td>
         </tr>
         <tr>
-          <td>Dee</td>
-          <td>Aspiring actress</td>
+            <td>Dee</td>
+            <td>Aspiring actress</td>
         </tr>
         <tr>
-          <td>Dennis</td>
-          <td>Bartender</td>
+            <td>Dennis</td>
+            <td>Bartender</td>
         </tr>
-      </tbody>
-    </table>
-  );
+        </tbody>
+    );
+}
+
+function Table() {
+    return (
+      <table>
+        <TableHeader />
+        <TableBody />
+      </table>
+    );
 }
 
 export default Table;
