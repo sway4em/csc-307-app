@@ -35,10 +35,14 @@ function MyApp() {
     postUser(person)
       .then((response) => {
         if (response.status === 201) {
-          setCharacters([...characters, person]);
+          return response.json();
         } else {
           console.log("User creation failed: Status code is not 201");
+          throw new Error("User creation failed");
         }
+      })
+      .then((data) => {
+        setCharacters([...characters, data]);
       })
       .catch((error) => {
         console.log(error);
