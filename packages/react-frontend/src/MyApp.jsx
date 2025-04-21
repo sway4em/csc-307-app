@@ -49,6 +49,44 @@ function MyApp() {
       });
   }
 
+  function deleteUser(id) {
+    return fetch(`http://localhost:8000/users/${id}`, {
+      method: "DELETE",
+    });
+  }
+
+  function removeOneCharacter(index) {
+    const user = characters[index];
+
+    if (!user.id) {
+      console.error("Cannot delete user without ID:", user);
+      return;
+    }
+
+    deleteUser(user.id)
+      .then((response) => {
+        console.log("Delete response status:", response.status);
+        if (response.status === 204 || response.status === 200) {
+          const updated = characters.filter((character, i) => {
+            return i !== index;
+          });
+          setCharacters(updated);
+        } else if (response.status === 404) {
+          console.log("User not found in backend");
+          // Still remove from frontend if backend can't find it
+          const updated = characters.filter((character, i) => {
+            return i !== index;
+          });
+          setCharacters(updated);
+        } else {
+          console.error("Unexpected status code:", response.status);
+        }
+      })
+      .catch((error) => {
+        console.log("Error deleting user:", error);
+      });
+  }
+
   useEffect(() => {
     fetchUsers()
       .then((res) => res.json())
