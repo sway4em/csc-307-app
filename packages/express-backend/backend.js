@@ -10,7 +10,7 @@ const { MONGO_CONNECTION_STRING } = process.env;
 
 mongoose.set("debug", true);
 mongoose
-  .connect(MONGO_CONNECTION_STRING + "users") // connect to Db "users"
+  .connect(MONGO_CONNECTION_STRING + "users")
   .catch((error) => console.log(error));
 
 const app = express();
@@ -87,12 +87,15 @@ app.delete("/users/:id", (req, res) => {
   userServices
     .findUserById(id)
     .then((user) => {
-      if (user) {
-        return user.deleteOne();
+      if (!user) {
+        return res.status(404).send("User not found");
       }
+      return user.deleteOne();
     })
-    .then(() => {
-      res.status(204).send();
+    .then((result) => {
+      if (result) {
+        res.status(204).send();
+      }
     })
     .catch((error) => {
       res.status(500).send(error);

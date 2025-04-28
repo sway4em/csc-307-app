@@ -49,8 +49,8 @@ function MyApp() {
       });
   }
 
-  function deleteUser(id) {
-    return fetch(`http://localhost:8000/users/${id}`, {
+  function deleteUser(_id) {
+    return fetch(`http://localhost:8000/users/${_id}`, {
       method: "DELETE",
     });
   }
@@ -58,12 +58,12 @@ function MyApp() {
   function removeOneCharacter(index) {
     const user = characters[index];
 
-    if (!user.id) {
+    if (!user._id) {
       console.error("Cannot delete user without ID:", user);
       return;
     }
 
-    deleteUser(user.id)
+    deleteUser(user._id)
       .then((response) => {
         console.log("Delete response status:", response.status);
         if (response.status === 204 || response.status === 200) {
@@ -73,7 +73,6 @@ function MyApp() {
           setCharacters(updated);
         } else if (response.status === 404) {
           console.log("User not found in backend");
-          // Still remove from frontend if backend can't find it
           const updated = characters.filter((character, i) => {
             return i !== index;
           });
